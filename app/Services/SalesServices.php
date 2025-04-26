@@ -53,9 +53,11 @@ class SalesServices
     
     public function updateSale(array $data, Sale $sale)
     {
-        $totalAmount = 0;
-    
+        
         if (isset($data['products']) && is_array($data['products'])) {
+            
+            $totalAmount = 0;
+
             foreach ($data['products'] as $item) {
                 $productId = $item['product_id'];
                 $newQuantity = $item['quantity'];
@@ -68,10 +70,15 @@ class SalesServices
                     continue; 
                 }
     
+                // Update stock based on diff
                 $oldQuantity = $saleItem->quantity;
                 $diff = $newQuantity - $oldQuantity;
     
                 if ($diff > 0 && $product->quantity < $diff) {
+
+                    //Keep old quantity if not enough stock
+                    $totalAmount += $product->unit_price * $oldQuantity;
+                    
                     continue; 
                 }
     

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SalesController;
 use App\Http\Controllers\Api\UserController;
@@ -34,6 +35,11 @@ Route::put('category/{category}', [CategoryController::class, 'update']);
 Route::get('category/{category}', [CategoryController::class, 'show']);
 
 Route::post('sale', [SalesController::class, 'store']);
-Route::put('sale/{sale}', [SalesController::class, 'udpate']);
+Route::put('sale/{sale}', [SalesController::class, 'update']);
 Route::get('sale', [SalesController::class, 'index']);
 Route::get('sale/{sale}', [SalesController::class, 'show']);
+
+Route::post('order', [OrderController::class, 'store']);
+Route::put('order/{order}', [OrderController::class, 'update']);
+Route::get('order', [OrderController::class, 'index']);
+Route::get('order/{order}', [OrderController::class, 'show']);

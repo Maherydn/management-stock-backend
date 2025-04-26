@@ -38,7 +38,7 @@ class SalesController extends Controller
         }
     }
 
-    public function udpate(EditSaleRequest $request, SalesServices $salesServices, Sale $sale)
+    public function update(EditSaleRequest $request, SalesServices $salesServices, Sale $sale)
     {
         try {
             $sale = $salesServices->updateSale($request->validated(), $sale);
