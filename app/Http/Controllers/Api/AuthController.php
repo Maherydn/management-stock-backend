@@ -14,6 +14,14 @@ class AuthController extends Controller
     {
         try {
             $token = $authServices->createUserToken($loginRequest->validated());
+
+            if(!$token) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Erreur d\'authentification.',
+                ], 500);
+            };
+
             return response()->json([
                 'success' => true,
                 'message' => 'Opération réussie.',

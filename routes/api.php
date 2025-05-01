@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\Order\OrderStatusController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SalesController;
 use App\Http\Controllers\Api\UserController;
@@ -43,3 +44,8 @@ Route::post('order', [OrderController::class, 'store']);
 Route::put('order/{order}', [OrderController::class, 'update']);
 Route::get('order', [OrderController::class, 'index']);
 Route::get('order/{order}', [OrderController::class, 'show']);
+
+Route::post('order-status', [OrderStatusController  ::class, 'store']);
+Route::put('order-status/{order-status}', [OrderStatusController::class, 'update']);
+Route::get('order-status', [OrderStatusController::class, 'index']);
+Route::get('order-status/{order-status}', [OrderStatusController::class, 'show']);

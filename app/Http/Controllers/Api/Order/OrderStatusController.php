@@ -1,27 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Order\CreateOrderRequest;
-use App\Http\Requests\Order\EditOrderRequest;
-use App\Models\Order;
 use App\Models\OrderStatus;
-use App\Services\OrdersServices;
 use Exception;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class OrderStatusController extends Controller
 {
-    public function store(CreateOrderRequest $request, OrdersServices $ordersServices)
-    {
+    public function store (Request $request) {
         try {
-            $order = $ordersServices->createOrder($request->validated());
+            $data = $request->validate([
+                "label" =>"required|string"
+            ]);
+
+            $orderStatus = OrderStatus::create($data);
 
             return response()->json([
                 "success" => true,
                 "message" => "Opération réussie",
-                "data" => $order
+                "data" => $orderStatus
             ], 201);
         } catch (Exception $e) {
             return response()->json([
@@ -32,16 +31,19 @@ class OrderController extends Controller
         }
     }
 
-    public function update(EditOrderRequest $request, OrdersServices $ordersServices, Order $order)
-    {
+    public function update (Request $request) {
         try {
-            $order = $ordersServices->updateOrder($request->validated(), $order);
+            $data = $request->validate([
+                "label" =>"required|string"
+            ]);
+
+            $orderStatus = OrderStatus::create($data);
 
             return response()->json([
                 "success" => true,
                 "message" => "Opération réussie",
-                "data" => $order
-            ], 200);
+                "data" => $orderStatus
+            ], 201);
         } catch (Exception $e) {
             return response()->json([
                 "success" => false,
@@ -51,41 +53,36 @@ class OrderController extends Controller
         }
     }
 
-
-    public function index()
-    {
+    public function index () {
         try {
 
             return response()->json([
                 "success" => true,
                 "message" => "Opération réussie",
-                "data" => Order::with('orderItems')->get()
-            ]);
+                "data" => OrderStatus::all()
+            ], 201);
         } catch (Exception $e) {
             return response()->json([
                 "success" => false,
                 "message" => "Opération échouée",
-                "error" => $e->getMessage()
+                "errorMessage" => $e->getMessage()
             ], 500);
         }
     }
 
-
-    public function show(Order $order)
-    {
+    public function show ( OrderStatus $orderStatus) {
         try {
-            $order->load('orderItems');
 
             return response()->json([
                 "success" => true,
-                "message" => "Détail de la vente",
-                "data" => $order
-            ]);
+                "message" => "Opération réussie",
+                "data" => $orderStatus
+            ], 201);
         } catch (Exception $e) {
             return response()->json([
                 "success" => false,
-                "message" => "Erreur lors de la récupération",
-                "error" => $e->getMessage()
+                "message" => "Opération échouée",
+                "errorMessage" => $e->getMessage()
             ], 500);
         }
     }
